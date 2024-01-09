@@ -68,14 +68,21 @@ public class MainApp {
     }
 
     private static void placeOrder() {
-        System.out.println("==PLACE ORDER==");
-        System.out.println("ENTER YOUR NAME:");
-        String cname = sc.nextLine();
-        System.out.println("ENTER THE PRODUCT ID :");
-        int id = sc.nextInt();
-        System.out.println("ENTER THE QTY");
-        int qty = sc.nextInt();
-        service.placeOrder(cname, id,qty);
+        System.out.println("Enter Customer Name");
+        String name=sc.next();
+        System.out.println("Enter Product Id");
+        int id=sc.nextInt();
+        System.out.println("Enter Product Qty");
+        int qty=sc.nextInt();
+
+        Order order=new Order(name,qty,id);
+        boolean status=false;
+        status=service.placeOrder(order);
+        if (status){
+            System.out.println("Order placed Successfully !! ");
+        }else {
+            System.out.println("Order Not placed ");
+        }
     }
 
     private static void removeProduct(){

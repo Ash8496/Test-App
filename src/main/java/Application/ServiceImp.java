@@ -20,26 +20,18 @@ public class ServiceImp implements Service {
     }
 
     @Override
-    public void placeOrder(String cname, int id, int qty) {
+    public boolean placeOrder(Order order) {
+        String query="{call placeOrder(?,?,?)}";
         try {
-            CallableStatement cstmt = conn.prepareCall("{call checkOutBooks(?, ?, ? )}");
-            cstmt.setString(1, cname);
-            cstmt.setInt(2, id);
-            cstmt.setInt(3, qty);
-
+            CallableStatement cstmt=conn.prepareCall(query);
+            cstmt.setString(1,order.getCustomerName());
+            cstmt.setInt(2,order.getProductId());
+            cstmt.setInt(3,order.getProductQty());
             cstmt.execute();
-
-            boolean status = cstmt.getBoolean(4);
-            int productQty = cstmt.getInt(5);
-
-            if (status) {
-                System.out.println(productQty + " order place successfully!");
-            } else {
-                System.out.println("Not enough available items for checkout.");
-            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println(e);
         }
+        return true;
     }
 
     public void updateProduct(Product uptProduct) {
