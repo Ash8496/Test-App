@@ -11,8 +11,6 @@ public interface Service {
 
     List<Product> displayAllProducts();
 
-
-
     void updateProduct(Product uptProduct);
 
     boolean placeOrder(Order order);

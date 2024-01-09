@@ -60,28 +60,6 @@ public class ServiceImp implements Service {
     }
 
 
-    public List<Product> displayAllProducts()
-    {
-        String displayQuery = "SELECT * FROM PRODUCT_INFO";
-        List<Product> productList = new ArrayList<>();
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(displayQuery);
-
-            while (rs.next())
-            {
-                int productId = rs.getInt(1);
-                String productName = rs.getString(2);
-                int productQty =rs.getInt(3);
-                double productPrice = rs.getDouble(4);
-                Product product = new Product(productId , productName , productQty ,productPrice);
-                productList.add(product);
-            }
-        } catch (SQLException e) {
-
-        }
-        return productList;
-    }
 
     @Override
     public List<Order> displayAllOrders() {
@@ -108,5 +86,21 @@ public class ServiceImp implements Service {
         return orderList;
     }
 
+    @Override
+    public List<Product> displayAllProducts() {
+        String query="select * from product_info";
+        List<Product> productList=new ArrayList<>();
 
+        try {
+            Statement stmt=conn.createStatement();
+            ResultSet rs=stmt.executeQuery(query);
+            while (rs.next()){
+                Product product=new Product(rs.getInt(1),rs.getString(2),rs.getInt(3),rs.getDouble(4));
+                productList.add(product);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return productList;
+    }
 }
