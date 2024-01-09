@@ -61,7 +61,6 @@ public class MainApp {
         int productQty = sc.nextInt();
         System.out.println("ENTER UPDATED PRODUCT PRICE ");
         double productPrice = sc.nextDouble();
-
         Product uptProduct = new Product(productId,productName ,productQty, productPrice);
         service.updateProduct(uptProduct);
         System.out.println(" PRODUCT UPDATED !!");

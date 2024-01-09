@@ -21,12 +21,12 @@ public class ServiceImp implements Service {
 
     @Override
     public boolean placeOrder(Order order) {
-        String query="{call placeOrder(?,?,?)}";
+        String query = "{call placeOrder(?,?,?)}";
         try {
-            CallableStatement cstmt=conn.prepareCall(query);
-            cstmt.setString(1,order.getCustomerName());
-            cstmt.setInt(2,order.getProductId());
-            cstmt.setInt(3,order.getProductQty());
+            CallableStatement cstmt = conn.prepareCall(query);
+            cstmt.setString(1, order.getCustomerName());
+            cstmt.setInt(2, order.getProductId());
+            cstmt.setInt(3, order.getProductQty());
             cstmt.execute();
         } catch (SQLException e) {
             System.out.println(e);
@@ -34,19 +34,23 @@ public class ServiceImp implements Service {
         return true;
     }
 
-    public void updateProduct(Product uptProduct) {
-        String updateQuery = "UPDATE PRODUCT_INFO SET product_name = ? , product_qty = ? , product_price = ? WHERE product_id = ?";
-        try {
-            PreparedStatement pstmt = conn.prepareStatement(updateQuery);
-            pstmt.setString(2 , uptProduct.getProductName());
-            pstmt.setInt(3,uptProduct.getProductQty());
-            pstmt.setDouble(4 , uptProduct.getProductPrice());
-           pstmt.executeUpdate();
+    public int updateProduct(Product uptProduct) {
+        String query = "UPDATE product_info SET product_name=?, product_qty=?, product_price=? WHERE product_id=?";
 
+        try (PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setString(1, uptProduct.getProductName());
+            pstmt.setInt(2, uptProduct.getProductQty());
+            pstmt.setDouble(3, uptProduct.getProductPrice());
+            pstmt.setInt(4, uptProduct.getProductId());
+
+            return pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.err.println("PRODUCT NOT FOUND !!");
+            System.out.println("Error updating product: " + e.getMessage());
+            return 0;
         }
     }
+
+
 
     public void removeProduct(int productId) {
         String delQuery = "DELETE FROM product_info WHERE product_id = ?";
@@ -103,4 +107,5 @@ public class ServiceImp implements Service {
         }
         return productList;
     }
+
 }

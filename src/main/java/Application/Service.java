@@ -10,8 +10,9 @@ public interface Service {
     List<Order> displayAllOrders();
 
     List<Product> displayAllProducts();
-
-    void updateProduct(Product uptProduct);
+    
 
     boolean placeOrder(Order order);
+
+    int updateProduct(Product uptProduct);
 }
