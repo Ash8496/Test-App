@@ -93,7 +93,27 @@ public class ServiceImp implements Service {
 
     @Override
     public List<Order> displayAllOrders() {
-        return null;
+        List<Order> orderList=new ArrayList<>();
+        String query="select * from order_info";
+        try {
+            Statement stmt= conn.createStatement();
+            ResultSet rs= stmt.executeQuery(query);
+
+            while(rs.next()){
+                int oId= rs.getInt(1);
+                String cName= rs.getString(2);
+                int pId= rs.getInt(3);
+                int pQty= rs.getInt(4);
+                double total= rs.getDouble(5);
+
+                Order order=new Order(oId,cName,pId,pQty,total);
+
+                orderList.add(order);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return orderList;
     }
 
 
